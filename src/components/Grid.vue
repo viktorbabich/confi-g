@@ -7,9 +7,6 @@
 	      'width': grid.container / grid.amount / grid.container * 100 + '%', padding: '0 ' + grid.gutter/2/grid.container*100 + '%'}">
 					<div class="colored"></div>
 				</div>
-      
-
-
      	</div>
 		</div>
 		<ul class="grid__styles">
@@ -81,7 +78,7 @@
     float: left;
   }
   .colored {
-    min-height: 500px;
+    min-height: 50vh;
     background: white;
   }
   .row:before {

@@ -1,80 +1,69 @@
 <template>
 	<div class="font">
 		<ul class="font__items">
-			<li>Base-font</li>
-			<li>H1</li>
+			<li @click="switchItem(baseFont)">Base-font</li>
+			<li @click="switchItem(h1)">H1</li>
 			<li>H2</li>
 			<li>H3</li>
 			<li>H4</li>
 			<li>H5</li>
 			<li>H6</li>
 		</ul>
-		<ul class="font__styles">
-			<li>
-				<span>font-family</span>
-				<select v-model="baseFont['font-family']">
-			    <option disabled>font-family</option>
-			    <option>Times New Roman</option>
-			    <option>Arial</option>
-			    <option>Calibri</option>
-			    <option>Georgia</option>
-			    <option>Impact</option>
-			    <option>Tahoma</option>
-			    <option>Verdana</option>
-				</select>
-			</li>
-			<li>
-				<span>font-size</span>
-				<input type="text" v-model="baseFont['font-size']">
-			</li>
-			<li>
-				<span>font-weight</span>
-				<input type="text" v-model="baseFont['font-weight']"> 
-			</li>
-			<li>
-				<span>line-height</span>
-				<input type="text" v-model="baseFont['line-height']">
-			</li>
-			<li>
-				<span>letter-spacing</span>
-				<input type="text" v-model="baseFont['letter-spacing']">
-			</li>
-		</ul>
-		<div class="font__preview">
-			<div class="base-font" :style="{
-				'font-family': baseFont['font-family'],
-				fontSize: baseFont['font-size']  + 'px',
-				'font-weight': baseFont['font-weight'],
-				'line-height': baseFont['line-height'] + 'em',
-				'letter-spacing': baseFont['letter-spacing'] + 'em',
-			}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid voluptate sequi nobis similique.
-			</div>
-		</div>
+
+		<font-styles 
+			:baseFont="baseFont"
+			:h1="h1"
+			:currentItem="currentItem">
+		</font-styles>
+
 	</div>
 </template>
 
 <script>
+	import fontStyles from "@/components/Font-styles"
+
 	export default {
+		components: {
+			"font-styles": fontStyles
+		},
 		data () {
 			return {
+				currentItem: "",
 				baseFont: {
 					"font-family": "Arial",
 					"font-size": 16,
 					"font-weight": 400,
 					"line-height": 1.2,
 					"letter-spacing": 0
+				},
+				h1: {
+					"font-family": "Arial",
+					"font-size": 36,
+					"font-weight": 600,
+					"line-height": 1.2,
+					"letter-spacing": 0
 				}
-			} 	
+			}
+		},
+		methods: {
+			switchItem(item) {
+				this.currentItem = item;
+			}
+		},
+		mounted () {
+			this.currentItem = this.baseFont;
 		}
 	}
 </script>
 
-<style lang="scss" scoped> 
+<style lang="scss"> 
 	.font {
-		display: flex;
 		margin-bottom: 40px;
+		display: flex;
 		&__items {
 			display: flex;
+			flex-basis: 200px;
+			flex-shrink: 0;
 			flex-direction: column;
 			li {
 				flex: 1;
@@ -85,6 +74,10 @@
 		}
 		&__config {
 			display: flex;
+		}
+		&__inner {
+			display: flex;
+			flex: 1;
 		}
 		&__styles {
 			flex: 1;
@@ -99,7 +92,7 @@
 			}
 			span {
 				display: inline-block;
-				width: 120px;
+				width: 120px; 
 				margin-right: -0.25em;
 			}
 			select {

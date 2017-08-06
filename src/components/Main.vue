@@ -4,11 +4,12 @@
 			<div class="projects__list" scroll="scroll">
 				<h1>Projects</h1>
 				<ul class="projects__search">
-					<li>Filter</li>
 					<li>Sort</li>
-					<li>Find</li>
+					<li>
+						<input type="text" v-model="search">Find
+					</li>
 				</ul>
-				<div class="projects__item" v-for="project in projects" @click.prevent="openProject(project._id)">	
+				<div class="projects__item" v-for="project in sorted">	
 					<h4 class="projects__name">{{ project.title || 'Project title' }}</h4>
 					<div>
 						<h6>Last change:</h6>
@@ -29,9 +30,10 @@
 	export default {
 		data () {
 			return {
+				search: '',
 				projects: [
 					{
-						title: 'one',
+						title: 'zzz',
 						owner: {
 							name: 'Victor',
 							email: 'test@gmail.com'
@@ -50,14 +52,23 @@
 					}
 				]
 			}
+		}, 
+		computed: {
+			filtered() {
+				return this.projects.filter((project) => {
+					return project.title.match(this.search)
+				})
+			},
+			sorted() {
+				return this.projects.sort((a, b) => {
+					 return a.title - b.title;
+				})
+			}
 		}
 	} 
 </script>
 
 <style lang="scss" scoped>
-	.container * {
-		// outline: 1px solid red;
-	}
 	.projects {
 		h1 {
 			font-size: 56px;
@@ -67,6 +78,9 @@
 		height: 100vh;
 		display: flex;
 		font-family: Impact, Arial, sans-serif;
+		&__name {
+			font-size: 32px;
+		}
 		&__search {
 			display: flex;
 			margin-bottom: 20px;

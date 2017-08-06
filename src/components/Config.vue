@@ -32,21 +32,19 @@
 					"line-height": 1.2,
 					"letter-spacing": 0
 				},
-				fonts: {
-					h1: {
-						"font-family": "Arial",
-						"font-size": 36,
-						"font-weight": 600,
-						"line-height": 1.2,
-						"letter-spacing": 0
-					},
-					h2: {
-						"font-family": "Arial",
-						"font-size": 28,
-						"font-weight": 600,
-						"line-height": 1.4,
-						"letter-spacing": .3
-					}
+				h1: {
+					"font-family": "Arial",
+					"font-size": 36,
+					"font-weight": 600,
+					"line-height": 1.2,
+					"letter-spacing": 0
+				},
+				h2: {
+					"font-family": "Arial",
+					"font-size": 28,
+					"font-weight": 600,
+					"line-height": 1.4,
+					"letter-spacing": .3
 				}
 			}
 		},
