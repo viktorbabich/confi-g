@@ -11,8 +11,6 @@
 		</ul>
 
 		<font-styles 
-			:baseFont="baseFont"
-			:h1="h1"
 			:currentItem="currentItem">
 		</font-styles>
 

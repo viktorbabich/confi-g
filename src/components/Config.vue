@@ -4,7 +4,7 @@
 			<li @click="switchView('font')">Font</li>
 			<li @click="switchView('grid')">Grid</li>
 		</ul>
-
+		
 		<component :is="currentView"></component>
 
 		<a class="button" href="" @click.prevent="saveConfig">Save data</a>
@@ -25,27 +25,6 @@
 		data() {
 			return {
 				currentView: 'font',
-				baseFont: {
-					"font-family": "Arial",
-					"font-size": 16,
-					"font-weight": 400,
-					"line-height": 1.2,
-					"letter-spacing": 0
-				},
-				h1: {
-					"font-family": "Arial",
-					"font-size": 36,
-					"font-weight": 600,
-					"line-height": 1.2,
-					"letter-spacing": 0
-				},
-				h2: {
-					"font-family": "Arial",
-					"font-size": 28,
-					"font-weight": 600,
-					"line-height": 1.4,
-					"letter-spacing": .3
-				}
 			}
 		},
 		methods: {

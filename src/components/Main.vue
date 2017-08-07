@@ -4,18 +4,32 @@
 			<div class="projects__list" scroll="scroll">
 				<h1>Projects</h1>
 				<ul class="projects__search">
-					<li>Sort</li>
+					<li>Sort by
+						<select @change="sortBy($event)">
+					    <option>Update</option>
+					    <option>Created</option>
+					    <option>Title</option>
+					    <option>Owner</option>
+						</select>
+					</li>
 					<li>
-						<input type="text" v-model="search">Find
+						Find 
+						<input type="text" v-model="search">
+						<select v-model="searchProp">
+					    <option>Update</option>
+					    <option>Created</option>
+					    <option>Title</option>
+					    <option>Owner</option>
+						</select>
 					</li>
 				</ul>
-				<div class="projects__item" v-for="project in sorted">	
+				<div class="projects__item" v-for="project in filtered">	
 					<h4 class="projects__name">{{ project.title || 'Project title' }}</h4>
 					<div>
 						<h6>Last change:</h6>
 						<p>{{ project.update }}</p>
 						<h6>Created:</h6>
-						<p>{{ project.created }} by {{ project.owner.email }}</p>
+						<p>{{ project.created }} by {{ project.owner }}</p>
 					</div>
 				</div>
 			</div>
@@ -27,28 +41,102 @@
 </template>
 
 <script>
+
+	// import moment from 'moment'
+
 	export default {
 		data () {
 			return {
+				jopa: 'piska',
 				search: '',
+				searchProp: 'Title',
 				projects: [
 					{
-						title: 'zzz',
-						owner: {
-							name: 'Victor',
-							email: 'test@gmail.com'
-						},
-						update: '12.05.2017',
-						created: '20.02.2017'
+						title: 'one',
+						owner: 'gtest@gmail.com',
+						update: '12.05.2016',
+						created: '25.10.2016',
+						data: {
+							baseFont: {
+								"font-family": "Arial",
+								"font-size": 16,
+								"font-weight": 400,
+								"line-height": 1.2,
+								"letter-spacing": 0
+							},
+							h1: {
+								"font-family": "Arial",
+								"font-size": 36,
+								"font-weight": 600,
+								"line-height": 1.2,
+								"letter-spacing": 0
+							},
+							h2: {
+								"font-family": "Arial",
+								"font-size": 28,
+								"font-weight": 600,
+								"line-height": 1.4,
+								"letter-spacing": .3
+							}
+						}
 					},
 					{
 						title: 'two',
-						owner: {
-							name: 'Oleg',
-							email: 'test@gmail.com'
-						},
-						update: '12.05.2017',
-						created: '20.02.2017'
+						owner: 'dtest@gmail.com',
+						update: '22.01.2017',
+						created: '11.12.2016',
+						data: {
+							baseFont: {
+								"font-family": "Arial",
+								"font-size": 16,
+								"font-weight": 400,
+								"line-height": 1.2,
+								"letter-spacing": 0
+							},
+							h1: {
+								"font-family": "Arial",
+								"font-size": 36,
+								"font-weight": 600,
+								"line-height": 1.2,
+								"letter-spacing": 0
+							},
+							h2: {
+								"font-family": "Arial",
+								"font-size": 28,
+								"font-weight": 600,
+								"line-height": 1.4,
+								"letter-spacing": .3
+							}
+						}
+					},
+					{
+						title: 'three',
+						owner: 'ctest@gmail.com',
+						update: '12.05.2018',
+						created: '11.02.2018',
+						data: {
+							baseFont: {
+								"font-family": "Arial",
+								"font-size": 16,
+								"font-weight": 400,
+								"line-height": 1.2,
+								"letter-spacing": 0
+							},
+							h1: {
+								"font-family": "Arial",
+								"font-size": 36,
+								"font-weight": 600,
+								"line-height": 1.2,
+								"letter-spacing": 0
+							},
+							h2: {
+								"font-family": "Arial",
+								"font-size": 28,
+								"font-weight": 600,
+								"line-height": 1.4,
+								"letter-spacing": .3
+							}
+						}
 					}
 				]
 			}
@@ -56,16 +144,25 @@
 		computed: {
 			filtered() {
 				return this.projects.filter((project) => {
-					return project.title.match(this.search)
-				})
-			},
-			sorted() {
-				return this.projects.sort((a, b) => {
-					 return a.title - b.title;
+					return project[this.searchProp.toLowerCase()].match(this.search)
 				})
 			}
+		}, 
+		methods: {
+			sortBy (event) {
+				if(event.target.value == "Created" || event.target.value == "Update") {
+					this.projects = this.projects.sort((a, b) => {
+						return this.$moment(a[event.target.value.toLowerCase()], 'DD/MM/YYYY') < this.$moment(b[event.target.value.toLowerCase()], 'DD/MM/YYYY')
+					})
+				} else {
+					this.projects = this.projects.sort((a, b) => {
+						return a[event.target.value.toLowerCase()] > b[event.target.value.toLowerCase()];
+					})
+				}
+			}
 		}
-	} 
+	}
+
 </script>
 
 <style lang="scss" scoped>
