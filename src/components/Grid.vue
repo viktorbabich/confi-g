@@ -36,6 +36,19 @@
 					amount: 2,
 					gutter: 30,
 					margin: 15
+				},
+				gridExport: {
+					container: {
+						width: this.grid.container + 'px',
+						padding: `0 ${this.margin}px`
+					},
+					row: {
+						margin: `0 -${gutter / 2}`
+					},
+					col: {
+						width: 100 / this.amount + '%',
+						padding: `0 ${this.gutter/2}px`
+					}
 				}
 			}
 		},

@@ -1,12 +1,25 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view 
+    	@openProject="updateId"
+			:currentProject="currentProject"
+    ></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  data () {
+  	return {
+  		currentProject: ""
+  	}
+  }, 
+  methods: {
+  	updateId (id) {
+  		this.currentProject = id;
+  	}
+  }
 }
 
 </script>

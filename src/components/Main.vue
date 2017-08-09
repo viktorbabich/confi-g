@@ -3,7 +3,7 @@
 		<div class="projects">
 			<div class="projects__list" scroll="scroll">
 				<h1>Projects</h1>
-				<ul class="projects__search">
+				<ul class="projects__search" v-if="projects.length > 1">
 					<li>Sort by
 						<select @change="sortBy($event)">
 					    <option>Update</option>
@@ -23,18 +23,18 @@
 						</select>
 					</li>
 				</ul>
-				<div class="projects__item" v-for="project in filtered">	
-					<h4 class="projects__name">{{ project.title || 'Project title' }}</h4>
+				<div class="projects__item" v-for="project in projects" @click="openProject(project._id)">	
+					<h4 class="projects__name">{{ project.title || 'Config' }}</h4>
 					<div>
 						<h6>Last change:</h6>
-						<p>{{ project.update }}</p>
+						<p>{{ $moment(project.update).format('DD/MM/YYYY') || $moment(project.created).format('DD/MM/YYYY') }}</p>
 						<h6>Created:</h6>
-						<p>{{ project.created }} by {{ project.owner }}</p>
+						<p>{{ $moment(project.created).format('DD/MM/YYYY') }} by {{ project.owner.email }}</p>
 					</div>
 				</div>
 			</div>
 			<div class="projects__new">
-				<router-link to="/Config" class="button">Новый проект</router-link>
+				<a href="#" class="button" @click.prevent="openProject(null)">Новый проект</a>
 			</div>
 		</div>
 	</div>
@@ -42,102 +42,33 @@
 
 <script>
 
-	// import moment from 'moment'
-
 	export default {
 		data () {
 			return {
-				jopa: 'piska',
 				search: '',
 				searchProp: 'Title',
 				projects: [
-					{
-						title: 'one',
-						owner: 'gtest@gmail.com',
-						update: '12.05.2016',
-						created: '25.10.2016',
-						data: {
-							baseFont: {
-								"font-family": "Arial",
-								"font-size": 16,
-								"font-weight": 400,
-								"line-height": 1.2,
-								"letter-spacing": 0
-							},
-							h1: {
-								"font-family": "Arial",
-								"font-size": 36,
-								"font-weight": 600,
-								"line-height": 1.2,
-								"letter-spacing": 0
-							},
-							h2: {
-								"font-family": "Arial",
-								"font-size": 28,
-								"font-weight": 600,
-								"line-height": 1.4,
-								"letter-spacing": .3
-							}
-						}
-					},
-					{
-						title: 'two',
-						owner: 'dtest@gmail.com',
-						update: '22.01.2017',
-						created: '11.12.2016',
-						data: {
-							baseFont: {
-								"font-family": "Arial",
-								"font-size": 16,
-								"font-weight": 400,
-								"line-height": 1.2,
-								"letter-spacing": 0
-							},
-							h1: {
-								"font-family": "Arial",
-								"font-size": 36,
-								"font-weight": 600,
-								"line-height": 1.2,
-								"letter-spacing": 0
-							},
-							h2: {
-								"font-family": "Arial",
-								"font-size": 28,
-								"font-weight": 600,
-								"line-height": 1.4,
-								"letter-spacing": .3
-							}
-						}
-					},
-					{
-						title: 'three',
-						owner: 'ctest@gmail.com',
-						update: '12.05.2018',
-						created: '11.02.2018',
-						data: {
-							baseFont: {
-								"font-family": "Arial",
-								"font-size": 16,
-								"font-weight": 400,
-								"line-height": 1.2,
-								"letter-spacing": 0
-							},
-							h1: {
-								"font-family": "Arial",
-								"font-size": 36,
-								"font-weight": 600,
-								"line-height": 1.2,
-								"letter-spacing": 0
-							},
-							h2: {
-								"font-family": "Arial",
-								"font-size": 28,
-								"font-weight": 600,
-								"line-height": 1.4,
-								"letter-spacing": .3
-							}
-						}
-					}
+					// {
+					// 	title: 'one',
+					// 	owner: 'gtest@gmail.com',
+					// 	update: '12.05.2016',
+					// 	created: '25.10.2016',
+					// 	_id: '0001'
+					// },
+					// {
+					// 	title: 'two',
+					// 	owner: 'dtest@gmail.com',
+					// 	update: '22.01.2017',
+					// 	created: '11.12.2016',
+					// 	_id: '0002'
+					// },
+					// {
+					// 	title: 'three',
+					// 	owner: 'ctest@gmail.com',
+					// 	update: '12.05.2018',
+					// 	created: '11.02.2018', 
+					// 	_id: '0003'
+					// }
 				]
 			}
 		}, 
@@ -159,7 +90,29 @@
 						return a[event.target.value.toLowerCase()] > b[event.target.value.toLowerCase()];
 					})
 				}
+			},
+			getProjects () {
+				this.$http.get('projects', {
+				 	headers: { 
+						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+					}
+				}).then(
+				 	response => {
+				 		this.projects = response.body
+				 		console.log(this.projects)
+				 	},
+				 	err => {
+				 		console.log(err)
+				 	}
+				) 
+			},
+			openProject(id) {
+				this.$emit("openProject", id);
+				this.$router.push({name: 'Config'})
 			}
+		},
+		mounted() {
+			this.getProjects();
 		}
 	}
 
