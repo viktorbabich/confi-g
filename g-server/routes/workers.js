@@ -22,10 +22,8 @@ function getRandomId () {
 
 module.exports =  {
 	getProjectByID(req, res, next) {
-		console.log(req.body);
 		Project
-			.findOne({_id: req.query._id})
-			.populate('user owner')
+			.findOne({_id: req.query._id}, '-_id -update -owner -created -__v')
 			.lean()
 			.exec((error, project) => {
 				if(error) {}
@@ -41,16 +39,6 @@ module.exports =  {
 	 			res.json(result)
 	 		});
 	},
-	newProject (req, res, next) {
-		const project = new Project({name: req.query.name, owner: req.user._id});
-		project.save((error, saved) => {
-			if(error) {
-				res.json({error})
-			} else {
-				res.json({_id: saved._id})
-			}
-		})
-	},
 	deleteProject (req, res, next) {
 		Project.remove({_id: req.query._id}).exec((error) => {
 			if(error) { res.json({ error: error }) }
@@ -59,15 +47,24 @@ module.exports =  {
 	},
 	saveConfig (req, res, next) {
 		if(!req.body._id) {
-			res.send({error: "id is required" });
+			const project = new Project({name: req.query.name, owner: req.user._id});
+			project.save((error, saved) => {
+				if(error) {
+					res.json({error})
+				} else {
+					let data = JSON.parse(req.body.config);
+					Project.findOneAndUpdate(saved._id, data, {}, function(err, doc){
+				    if (err) return res.send(500, { error: err });
+				    return res.send("succesfully saved");
+					});
+				}
+			})
 		} else {
-			console.log('sadasdas')
 			let data = JSON.parse(req.body.config);
 			Project.findOneAndUpdate(req.body._id, data, {}, function(err, doc){
 		    if (err) return res.send(500, { error: err });
 		    return res.send("succesfully saved");
 			});
 		}
-
 	}
 };

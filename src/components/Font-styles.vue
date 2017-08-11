@@ -3,7 +3,7 @@
 		<ul class="font__styles">
 			<li>
 				<span>font-family</span>
-				<select v-model="currentItem['font-family']">
+				<select v-model="currentItem['fontFamily']">
 			    <option disabled>font-family</option>
 			    <option>Times New Roman</option>
 			    <option>Arial</option>
@@ -16,28 +16,28 @@
 			</li>
 			<li>
 				<span>font-size</span>
-				<input type="text" v-model="currentItem['font-size']">
+				<input type="text" v-model="currentItem['fontSize']">
 			</li>
 			<li>
 				<span>font-weight</span>
-				<input type="text" v-model="currentItem['font-weight']"> 
+				<input type="text" v-model="currentItem['fontWeight']"> 
 			</li>
 			<li>
 				<span>line-height</span>
-				<input type="text" v-model="currentItem['line-height']">
+				<input type="text" v-model="currentItem['lineHeight']">
 			</li>
 			<li>
 				<span>letter-spacing</span>
-				<input type="text" v-model="currentItem['letter-spacing']">
+				<input type="text" v-model="currentItem['letterSpacing']">
 			</li>
 		</ul>
 		<div class="font__preview">
 			<div class="base-font" :style="{
-				'font-family': currentItem['font-family'],
-				fontSize: currentItem['font-size']  + 'px',
-				'font-weight': currentItem['font-weight'],
-				'line-height': currentItem['line-height'] + 'em',
-				'letter-spacing': currentItem['letter-spacing'] + 'em',
+				'font-family': currentItem['fontFamily'],
+				fontSize: currentItem['fontSize'],
+				'font-weight': currentItem['fontWeight'],
+				'line-height': currentItem['lineHeight'] + 'em',
+				'letter-spacing': currentItem['letterSpacing'] + 'em',
 			}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid voluptate sequi nobis similique.
 			</div>
 		</div>

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { saveConfig, getProjects, newProject, deleteProject, getProjectByID } = require('./workers');
+const { saveConfig, getProjects, deleteProject, getProjectByID } = require('./workers');
 
 
 /* GET home page. */
@@ -13,8 +13,6 @@ router.post('/saveconfig', saveConfig);
 router.get('/saveconfig', saveConfig);
 
 router.get('/projects', getProjects);
-// router.get('/new', ensureAuthenticated, newProject);
-router.get('/new', newProject);
 router.get('/delete', ensureAuthenticated, deleteProject);
 
 router.get('/project', getProjectByID);

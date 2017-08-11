@@ -47,29 +47,7 @@
 			return {
 				search: '',
 				searchProp: 'Title',
-				projects: [
-					// {
-					// 	title: 'one',
-					// 	owner: 'gtest@gmail.com',
-					// 	update: '12.05.2016',
-					// 	created: '25.10.2016',
-					// 	_id: '0001'
-					// },
-					// {
-					// 	title: 'two',
-					// 	owner: 'dtest@gmail.com',
-					// 	update: '22.01.2017',
-					// 	created: '11.12.2016',
-					// 	_id: '0002'
-					// },
-					// {
-					// 	title: 'three',
-					// 	owner: 'ctest@gmail.com',
-					// 	update: '12.05.2018',
-					// 	created: '11.02.2018', 
-					// 	_id: '0003'
-					// }
-				]
+				projects: []
 			}
 		}, 
 		computed: {
@@ -99,7 +77,6 @@
 				}).then(
 				 	response => {
 				 		this.projects = response.body
-				 		console.log(this.projects)
 				 	},
 				 	err => {
 				 		console.log(err)

@@ -1,19 +1,20 @@
 const mongoose = require('mongoose'),
 		  Schema = mongoose.Schema;
-// const fonttmpl = {
-//   fm: 'Arial',
-//   fz:'16px',
-//   ls: '0'
-// }
 
 const FontType = {
-  fm: {
-    type: String,
+  fontFamily: {
+    type: String
   },
-  fz: {
-    type: String,
+  fontSize: {
+    type: String
   },
-  ls: {
+  fontWeight: {
+    type: Number
+  },
+  lineHeight: {
+    type: Number
+  },
+  letterSpacing: {
     type: String,
   }
 }
@@ -37,14 +38,27 @@ const schema = new Schema({
     type: mongoose.Schema.ObjectId, 
     ref: 'User' 
   },
-  font: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Font'
+  baseFont: {
+    type: FontType
   },
-  // grid: {
-  //   type: mongoose.Schema.ObjectId,
-  //   ref: 'Grid'
-  // }
+  h1: {
+    type: FontType
+  },
+  h2: {
+    type: FontType
+  },
+  h3: {
+    type: FontType
+  },
+  h4: {
+    type: FontType
+  },
+  h5: {
+    type: FontType
+  },
+  h6: {
+    type: FontType
+  }
 });
 
 schema.pre('save', function(next) {

@@ -1,17 +1,15 @@
 <template>
 	<div class="container">
-	
-		<div>{{ project }}</div>
+		<input class="title" v-model="project['name']" :readonly="active">
 
-		<!-- <input type="text" v-model="project.h1.fz"> -->
+		<img class="edit" @click="active = false" src="static/images/edit-icon.svg" alt="">
 
-		<h1 class="title">{{ currentProject }}</h1>
 		<ul class="links">
 			<li @click="switchView('font')">Font</li>
 			<li @click="switchView('grid')">Grid</li>
 		</ul>
 
-		<component :is="currentView"></component>
+		<component :is="currentView" :project='project'></component>
 
 		<a class="button" href="" @click.prevent="saveConfig">Save config</a>
 
@@ -32,65 +30,95 @@
 		data() {
 			return {
 				currentView: 'font',
-				project: null,
-				id: this.currentProject,
-				parameters: {
-					baseFont: {
-						"font-family": "Arial",
-						"font-size": 16,
-						"font-weight": 400,
-						"line-height": 1.2,
-						"letter-spacing": 0
-					},
-					h1: {
-						"font-family": "Arial",
-						"font-size": 36,
-						"font-weight": 600,
-						"line-height": 1.2,
-						"letter-spacing": 0
-					}
-				}
+				project: {
+					"name": "Project name",
+				  "baseFont":
+				  {
+				      "fontFamily": "Arial",
+				      "fontSize": "16px",
+				      "fontWeight": 400,
+				      "lineHeight": 1.2,
+				      "letterSpacing": 0
+				  },
+				  "h6":
+				  {
+				      "fontFamily": "Arial",
+				      "fontSize": "16px",
+				      "fontWeight": 400,
+				      "lineHeight": 1.2,
+				      "letterSpacing": 0
+				  },
+				  "h5":
+				  {
+				      "fontFamily": "Arial",
+				      "fontSize": "16px",
+				      "fontWeight": 400,
+				      "lineHeight": 1.2,
+				      "letterSpacing": 0
+				  },
+				  "h4":
+				  {
+				      "fontFamily": "Arial",
+				      "fontSize": "16px",
+				      "fontWeight": 400,
+				      "lineHeight": 1.2,
+				      "letterSpacing": 0
+				  },
+				  "h3":
+				  {
+				      "fontFamily": "Arial",
+				      "fontSize": "16px",
+				      "fontWeight": 400,
+				      "lineHeight": 1.2,
+				      "letterSpacing": 0
+				  },
+				  "h2":
+				  {
+				      "fontFamily": "Arial",
+				      "fontSize": "16px",
+				      "fontWeight": 400,
+				      "lineHeight": 1.2,
+				      "letterSpacing": 0
+				  },
+				  "h1":
+				  {
+				      "fontFamily": "Arial",
+				      "fontSize": "16px",
+				      "fontWeight": 400,
+				      "lineHeight": 1.2,
+				      "letterSpacing": 0
+				  }
+				},
+				name: 'Project name',
+				active: true
 			}
 		},
 		methods: {
 			switchView (view) {
 				this.currentView = view;
-			}, 
+			},
 			saveConfig () {
-				const data = this.project;		
-				if(this.id) {
-					console.log(this.id)
-					this.$http.post('saveconfig', {config: JSON.stringify(data), _id: this.id}, {
-						headers: { 
-							'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-						}
-					}).then(
-						response => {
-							this.filename = response.body.file;
-						},
-						err => {
-							console.log(err)
-						}
-					)
-				} else {
-					this.$http.get('new').then(
-						response => {
-							this.id = response.body._id;
-							this.saveConfig()
-						},
-						err => {
-							console.log(err)
-						}
-					)
-				}
-			}
+			const data = this.project;
+				this.$http.post('saveconfig', {config: JSON.stringify(data), _id: this.currentProject}, {
+					headers: { 
+						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+					}
+				}).then(
+					response => {
+						this.filename = response.body.file;
+					},
+					err => {
+						console.log(err)
+					}
+				)
+			} 
 		},
-		created () {
-			console.log(this.currentProject)
+		mounted () {
 			if(this.currentProject) {
 				this.$http.get('project', {params: { _id: this.currentProject }}).then(
 					response => {
 						this.project = response.body
+						console.log(this.project)
 					},
 					err => {
 						console.log(err)
@@ -105,8 +133,17 @@
 <style lang="scss"> 
 	.title {
 		font-size: 52px;
-		text-align: center;
+		font-family: impact;
 		margin-bottom: 1.2em;
+		border: none;
+		outline: none;
+	}
+	.edit {
+		width: 60px;
+		border: 3px solid black;
+		padding: 5px;
+		border-radius: 5px;
+		cursor: pointer;
 	}
 	.links {
 		display: flex;

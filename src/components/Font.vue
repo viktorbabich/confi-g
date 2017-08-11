@@ -1,13 +1,13 @@
 <template>
 	<div class="font">
 		<ul class="font__items">
-			<li @click="switchItem(baseFont)">Base-font</li>
-			<li @click="switchItem(h1)">H1</li>
-			<li>H2</li>
-			<li>H3</li>
-			<li>H4</li>
-			<li>H5</li>
-			<li>H6</li>
+			<li :class="{'active': true}" @click="switchItem('baseFont')">Base-font</li>
+			<li @click="switchItem('h1')">H1</li>
+			<li @click="switchItem('h2')">H2</li>
+			<li @click="switchItem('h3')">H3</li>
+			<li @click="switchItem('h4')">H4</li>
+			<li @click="switchItem('h5')">H5</li>
+			<li @click="switchItem('h6')">H6</li>
 		</ul>
 
 		<font-styles 
@@ -21,40 +21,35 @@
 	import fontStyles from "@/components/Font-styles"
 
 	export default {
+		props: ['project'],
 		components: {
 			"font-styles": fontStyles
 		},
 		data () {
 			return {
-				currentItem: "",
-				baseFont: {
-					"font-family": "Arial",
-					"font-size": 16,
-					"font-weight": 400,
-					"line-height": 1.2,
-					"letter-spacing": 0
-				},
-				h1: {
-					"font-family": "Arial",
-					"font-size": 36,
-					"font-weight": 600,
-					"line-height": 1.2,
-					"letter-spacing": 0
-				}
+				currentItem: ''
 			}
 		},
 		methods: {
 			switchItem(item) {
-				this.currentItem = item;
+				this.currentItem = this.project[item];
 			}
 		},
 		mounted () {
-			this.currentItem = this.baseFont;
+			if(this.project) this.currentItem = this.project['baseFont'];
+		},
+		watch: {
+			project: function (project) {
+				this.currentItem = this.project['baseFont'];
+			}
 		}
 	}
 </script>
 
 <style lang="scss"> 
+	.active {
+		background: red;
+	}
 	.font {
 		margin-bottom: 40px;
 		display: flex;
